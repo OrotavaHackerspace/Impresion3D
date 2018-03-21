@@ -1,0 +1,47 @@
+!from numpy import array
+!from math import pi
+!C_laca = 1.5
+!N_laca = 200.
+!C_E0 = 0.5
+!C_pot = 0.1
+!C_maquina = 500.+85.
+!tau = 5.*365*4
+!P_error = 0.5
+!filament_cost =	 {"ABS": 25,
+					!"PLA":14,
+					!"PLA WOOD":35,
+					!"NGEN_FLEX":51,
+					!"FILAFLEX":71}
+!filament_rho = 	{"ABS": 1.04,
+					!"PLA":1.3,
+					!"NGEN_FLEX":1.13,
+					!"PLA WOOD":1,
+					!"FILAFLEX":1} 		#Filament density in g/cm3
+!def coste3D(length, time, type):
+	!if type not in filament_cost and type not in filament_rho:
+		!type = "PLA"
+		!print "Failure to index filament name. Changed to PLA."
+	!time *= 1.5
+	!C_m = filament_rho[type]*1e-6*length*pi*(1.75/2.)**2*filament_cost[type] + C_laca/N_laca
+	!C_fixed = C_m + C_E0 + time*C_pot + time*C_maquina/tau
+	!C_personal = 1.
+	!C_profit = 1.5*C_fixed
+	!C_variable = C_personal + C_profit
+	!price = (1+P_error)*C_fixed + C_variable
+	!bd_fixed = array([C_m, C_E0, time*C_pot, time*C_maquina/tau])/C_fixed
+	!return (price, (1+P_error)*C_fixed, C_variable, bd_fixed)
+!gcode = self.fgcode
+!l = gcode.filament_length
+!t = gcode.estimate_duration()[1].seconds/3600.
+!filament = arg[0]
+!cost = coste3D(float(l),float(t),filament)
+!print
+!print "Client: %.2f, Member: %.2f, Profit: %.2f " % cost[0:3]
+!print "-------------"
+!print "Breakdown"
+!print "-------------"
+!cost_breakdown = ["Material:			","Base Energy:		","Energy Consumed:	","Machine use:		"]
+!for i in range(len(cost_breakdown)):
+	!p = cost[3][i]*100
+	!print "%s	%i%%	%s" % (cost_breakdown[i],p,"|"*int(p/5))
+
