@@ -2,18 +2,24 @@
 !from math import pi
 !C_laca = 1.5
 !N_laca = 200.
-!C_E0 = 0.5
+!C_E0 = 0.5+50/21+10/21 #Coste arranque+Autonomo+Alquiler
 !C_pot = 0.1
 !C_maquina = 500.+85.
-!tau = 5.*365*4
+!tau = 365*4
 !P_error = 0.5
 !filament_cost =	 {"ABS": 25,
 					!"PLA":14,
 					!"PLA WOOD":35,
+					!"NGEN":40,
+					!"HT":37.5,
+					!"PA":66,
 					!"NGEN_FLEX":51,
 					!"FILAFLEX":71}
 !filament_rho = 	{"ABS": 1.04,
 					!"PLA":1.3,
+					!"NGEN":1.20,
+					!"HT":1.18,
+					!"PA":1.4,
 					!"NGEN_FLEX":1.13,
 					!"PLA WOOD":1,
 					!"FILAFLEX":1} 		#Filament density in g/cm3
